@@ -1,38 +1,6 @@
+process.env.ORA_SDTZ = 'UTC';
 var oracledb = require('oracledb');
 var http = require('http');
-
-oracledb.getConnection(
-  {
-    user          : "STUDENT",
-    password      : "STUDENT",
-    connectString : "localhost/XE"
-  },
-  function(err, connection) {
-    if (err) {
-      console.error(err.message);
-      return;
-    }
-    /*connection.execute(
-      `SELECT * FROM stapani`,
-      function(err, result) {
-        if (err) {
-          console.error(err.message);
-          doRelease(connection);
-          return;
-        }
-        console.log(result.rows);
-        doRelease(connection);
-      })
-      */
-  });
-
-function doRelease(connection) {
-  connection.close(
-    function(err) {
-      if (err)
-        console.error(err.message);
-    });
-}
 
 const routes = require('./routes/routes');
 const indexController = require('./routes/index');
@@ -41,13 +9,40 @@ const contactUsPageController = require('./routes/contactUsPage');
 const loginController = require('./routes/login');
 const signUpDoctor = require('./routes/signUpDoctor');
 const signUpUser = require('./routes/signUpUser');
+const doctorController = require ('./routes/doctor');
+const stapanController = require ('./routes/stapan');
+async function run()  {
+  try {
+      connection = await oracledb.getConnection(  {
+          user          : "student",
+          password      : "STUDENT",
+          connectString : "localhost:1521/xe"
+        });
+        console.log("Connected");
+      }
+  catch(err) {
+      console.log(err);
+  } finally {
+    if (connection) {
+      try {
+        await connection.close();
+      } catch(err) {
+        console.log("Error when closing the database connection: ", err);
+      }
+    }
+}
+}
+run();
+
 
 http.createServer(function(req, res) {
   routes(req, res);
   indexController(req, res);
   servicesPageController(req, res);
   contactUsPageController(req, res);
-  loginController(req, res, oracledb);
-  signUpDoctor(req, res, oracledb);
-  signUpUser(req, res, oracledb);
+  loginController(req, res);
+  signUpDoctor(req, res);
+  signUpUser(req, res);
+  doctorController(req,res);
+  stapanController(req,res);
 }).listen(3000);
