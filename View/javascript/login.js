@@ -21,77 +21,45 @@ const handleFormSubmit = event => {
 
     // sa faca outputul valid
     dataContainer.textContent = JSON.stringify(data, null, " ");
-    sendPost(dataContainer.textContent)
-        .then(data => console.log(JSON.stringify(data)))
-        .catch(error => {
-            console.error(error)
-        });
+    sendPost(dataContainer.textContent);
+        // .then(data => {
+        //     // data = JSON.stringify(data);
+        //     console.log(data)})
+        // .catch(error => {
+        //             console.error(error)
+        //         });
     //console.log(dataContainer);
     //seeStatus();
 };
 const form = document.getElementsByClassName('signUpForm')[0];
 form.addEventListener('submit', handleFormSubmit);
 function sendPost(data) {
-    return fetch('/date', {
+    console.log(data);
+    return fetch('/login', {
         method: "POST",
-        mode: "cors",
+        // mode: "cors",
         cache: "no-cache",
         credentials: "same-origin",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            'Accept': 'application/json; odata=verbose'
+
         },
         redirect: "follow",
         referrer: "no-refferer",
         body: data
     })
-        .then(response => {
-            console.log(response);
-            if (response.ok) {
-                if(response.status == 200)
-                    // if(response.statusText === "map") {
-                    //     window.location.pathname = '/map';
-                    // }
-                    // else {
-                        response.json();
-                    // }
-            }
-            // else {
-            //     if (response.status == 401) {
-            //         if (response.statusText === "email") {
-            //             alert("Email deja existent! Va rugam sa introduceti altul!");
-            //             location.reload();
-            //         }
-            //         else if (response.statusText === "parola") {
-            //             alert("Parola trebuie sa aiba minim 6 caractere!")
-            //             location.reload();
-            //         }
-            //         else if (response.statusText === "numar") {
-            //             alert("Numarul de telefon nu are formatul dorit (10 caractere si sa inceapa cu 07)!");
-            //             location.reload();
-            //         }
-            //         else if (response.statusText === "email gresit") {
-            //             alert("Emailul nu are formatul dorit!");
-            //             location.reload();
-            //         }
-                    // }
-                    //console.log(response);
-
-                // }
-                // else console.log(response);
-            // }
-        }
-        );
+        .then((res) => {
+            // data=res.json;
+            // data=res.clone.text();
+            // console.log(res.text());
+            // console.log(data);
+            return res.text();
+        })
+        .then((data) => {
+            // data=res.json();
+            console.log(JSON.parse(data));
+            console.log(data)
+        })
+        .catch((err) => console.log(err))
 }
-// function seeStatus() {
-//     fetch("/signup")
-//         .then(function (response) {
-//             if (response.status !== 200) {
-//                 throw new Error(response.status)
-//             }
-//         })
-//         .catch(function (error) {
-//             if (response.status == 401) {
-//                 alert("eroare");
-//             }
-//         });
-// }

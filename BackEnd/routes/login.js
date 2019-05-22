@@ -15,7 +15,7 @@ module.exports = function (req, res) {
         });
     }
 
-    if (req.url === '/date' && req.method === 'POST') {
+    if (req.url === '/login' && req.method === 'POST') {
         var body = '';
 
         req.on('data', function (data) {
@@ -44,6 +44,7 @@ module.exports = function (req, res) {
                                 return;
                             }
                             console.log("am AJINS AICI");
+                            console.log(result.rows);
                                 // console.log('db response is ready '+result.rows);
                                 // res.writeHead(200, {'Content-Type': 'application/json'});
                                 // res.end(JSON.stringify(result.rows));
@@ -70,18 +71,19 @@ module.exports = function (req, res) {
                                     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
                                     res.setHeader('Access-Control-Allow-Credentials', true);
                                     // res.writeHead(200,{'Content-Type':'application/json'});
-                                    res.writeHead(200,{'Content-Type':'application/json'});
+                                    res.writeHead(200,{'Content-Type':'application/json; utf-8'});
+                                    console.log(JSON.stringify(rowData));
                                     res.end(JSON.stringify(rowData));
                                 }
                                 else {
                                     console.log("Stapan");
                                     // return res.redirect('/stapan');
-                                    res.setHeader('Access-Control-Allow-Origin', '*');
-                                    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-                                    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-                                    res.setHeader('Access-Control-Allow-Credentials', true);
+                                    // res.setHeader('Access-Control-Allow-Origin', '*');
+                                    // res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+                                    // res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+                                    // res.setHeader('Access-Control-Allow-Credentials', true);
                                     // res.writeHead(200,{'Content-Type':'application/json'});
-                                    res.writeHead(200,{'Content-Type':'application/json'});
+                                    res.setHeader(200,{'Content-Type':'application/json'});
                                     res.end(JSON.stringify(rowData));
                                 }
                             }

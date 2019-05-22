@@ -13,7 +13,7 @@ module.exports = function (req,res) {
     }
     if (req.url.includes('.png') && req.method === 'GET') {
         const path = __dirname + '/../../View/' + req.url;
-        //console.log(path);
+        // console.log(path);
 
         fs.readFile(path, function(err,data) {
             if(err){
@@ -36,8 +36,8 @@ module.exports = function (req,res) {
         });
     }
     if (req.url.includes('.js') && req.method === 'GET') {
-        const path = __dirname + '/../../View/' + req.url;
-        //console.log(path);
+        const path = __dirname + '/../../View' + req.url;
+        console.log(path);
 
         fs.readFile(path, function(err,data) {
             if(err){
